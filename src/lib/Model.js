@@ -14,7 +14,7 @@ class Model {
     // A WeakMap is collection of key/value pairs in which the keys must be objects and the values can be arbitrary values. A WeakMap is NOT iterable.
     if (!Model.viewMap) Model.viewMap = new WeakMap();
     Model.viewMap.set(this, []);
-    console.log(Model.viewMap);
+    //console.log(Model.viewMap);
   }
 
   bindView(view) {
