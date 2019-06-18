@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import Renderer from './lib/Renderer';
+// import Quiz from './Quiz';
 
 class QuizDisplay extends Renderer {
   getEvents() {
@@ -24,12 +25,29 @@ class QuizDisplay extends Renderer {
     `;
   }
 
+  generateQuestions() {
+    return `
+      <div>
+        <p> test
+        </p>
+      </div>
+    `;
+  }
+
+  generateAnswers() {
+
+  }
+
   template() {
     let html = '';
     
     if (this.model.asked.length === 0) {
       // Quiz has not started
       html = this._generateIntro();
+    }
+
+    if (this.model.asked.length < 0) {
+      html = this.generateQuestions();
     }
     
     return html;

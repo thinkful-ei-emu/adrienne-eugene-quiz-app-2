@@ -1,4 +1,5 @@
 import Renderer from './lib/Renderer';
+import Quiz from './Quiz';
 
 class QuizStatus extends Renderer {
   template() {
@@ -6,7 +7,9 @@ class QuizStatus extends Renderer {
 
     return `
       <div>
-      hello world
+      Score: ${this.model.score}
+      High Score: ${this.model.scoreHistory}
+      Progress: ${this.model.progress}
       </div>
     `;
   }

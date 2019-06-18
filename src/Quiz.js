@@ -18,6 +18,7 @@ class Quiz extends Model{
     // TASK: Add more props here per the exercise
     this.score = 0;
     this.scoreHistory = [];
+    this.progress = '';
 
   }
 
@@ -78,6 +79,21 @@ class Quiz extends Model{
     }
 
     return true;
+  }
+
+  highScore() {
+   this.scoreHistory = Math.max(...this.scoreHistory);
+   this.update();
+  }
+
+  progressStatus() {
+   if(this.active = true) {
+    this.progress =  `${this.asked.length} of 5`;
+    this.update();
+   } else {
+     this.progress = 'Inactive';
+     this.update();
+   }
   }
 
 }
