@@ -24,30 +24,38 @@ class QuizDisplay extends Renderer {
       </div>
     `;
   }
-
-  generateQuestions() {
-    return `
-      <div>
-        <p> test
-        </p>
+ 
+  
+  generateQuestion() {
+    let currentQ = this.model.getCurrentQuestion();
+    let answerSelection=null;
+    for(let i = 0; i < currentQ.answers.length; i++){
+      answerSelection += `<button class='generated_answer'>${currentQ.answers[i]}<button>`;
+      // ask about .text
+      //refer to Question.js for parameters
+      return `
+    <div>
+    ${currentQ.text}
+    ${answerSelection}
+    <div class="buttons">
+        <button class="next-question">Next Question</button>
       </div>
+    </div>
     `;
-  }
+    }}
 
-  generateAnswers() {
 
-  }
 
   template() {
     let html = '';
-    
     if (this.model.asked.length === 0) {
       // Quiz has not started
       html = this._generateIntro();
     }
 
-    if (this.model.asked.length < 0) {
-      html = this.generateQuestions();
+    if (this.model.asked.length > 0) {
+      html = this.generateQuestion();
+      
     }
     
     return html;
