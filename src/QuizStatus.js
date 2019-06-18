@@ -4,7 +4,7 @@ import Quiz from './Quiz';
 class QuizStatus extends Renderer {
   template() {
     // return some HTML here, utilizing `this.model`
-
+// console.log(this);
     return `
       <div>
       Score: ${this.model.score}

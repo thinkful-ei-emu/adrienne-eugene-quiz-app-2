@@ -48,12 +48,14 @@ class Quiz extends Model{
   }
 
   nextQuestion() {
+    this.progressStatus();
     const currentQ = this.getCurrentQuestion();
     if (currentQ && currentQ.getAnswerStatus() === -1) {
       return false;
     }
 
     this.asked.unshift(this.unasked.pop());
+    this.update();
     return true;
   }
 
@@ -77,6 +79,7 @@ class Quiz extends Model{
     if (currentQ.getAnswerStatus() === 1) {
       this.increaseScore();
     }
+    else this.update();
 
     return true;
   }
@@ -87,8 +90,9 @@ class Quiz extends Model{
   }
 
   progressStatus() {
-   if(this.active = true) {
-    this.progress =  `${this.asked.length} of 5`;
+    console.log(this);
+   if(this.active === true) {
+    this.progress = `${this.asked.length} of 5`;
     this.update();
    } else {
      this.progress = 'Inactive';
