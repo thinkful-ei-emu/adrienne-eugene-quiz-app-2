@@ -8,7 +8,8 @@ class QuizDisplay extends Renderer {
       'click .start-quiz': 'handleStart',
       'click .submit-button': 'handleSubmit',
       'click .next-question': 'handleNextQuestion',
-      'click .finish-quiz': 'handleFinishQuiz'
+      'click .finish-quiz': 'handleFinishQuiz',
+      // 'click .play-again': 
     };
   }
 
@@ -98,6 +99,7 @@ class QuizDisplay extends Renderer {
 
   generateFinishScreen() {
     if (this.model.score > this.model.highScore) {
+      // console.log(this.model.highScore);
       return `
       <div> 
        <p>Good job!</p>
@@ -120,7 +122,13 @@ class QuizDisplay extends Renderer {
   template() {
     // console.log('template');
     let html = '';
-  
+
+    if (this.model.asked.length === 5 && this.model.unasked.length === 0) {
+      console.log('finish quiz exists');
+      html = this.generateFinishScreen();
+      return html;
+    }
+
     if (this.model.getCurrentQuestion()) {
       // console.log('current question exists');
       if (this.model.getCurrentQuestion().userAnswer) {
@@ -139,10 +147,6 @@ class QuizDisplay extends Renderer {
     if (this.model.asked.length > 0) {
       html = this.generateQuestion();
     } 
-
-    if (this.model.asked.length === 5 && this.model.active === false) {
-      html = this.generateFinishScreen();
-    }
 
     return html;
   }
@@ -166,7 +170,7 @@ class QuizDisplay extends Renderer {
 
   handleFinishQuiz() {
     console.log('finish quiz button works');
-    this.generateFinishScreen();
+    this.model.endGame();
   }
 }
 

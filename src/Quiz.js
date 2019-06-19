@@ -102,7 +102,11 @@ class Quiz extends Model{
   }
 
   endGame() {
+    this.unasked = [];
+    this.asked = [5];
     this.active = false;
+    this.score = this.score;
+    this.scoreHistory = this.highScore();
     this.update();
   }
 
