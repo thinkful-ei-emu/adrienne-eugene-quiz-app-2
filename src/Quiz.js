@@ -18,7 +18,7 @@ class Quiz extends Model{
     // TASK: Add more props here per the exercise
     this.score = 0;
     this.scoreHistory = [];
-    this.progress = '';
+    this.progress = 'Inactive';
 
   }
 
@@ -55,6 +55,7 @@ class Quiz extends Model{
     }
 
     this.asked.unshift(this.unasked.pop());
+    this.progressStatus();
     this.update();
     return true;
   }
@@ -98,6 +99,11 @@ class Quiz extends Model{
      this.progress = 'Inactive';
      this.update();
    }
+  }
+
+  endGame() {
+    this.active = false;
+    this.update();
   }
 
 }

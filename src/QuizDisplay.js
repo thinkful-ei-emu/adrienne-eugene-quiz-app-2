@@ -7,7 +7,8 @@ class QuizDisplay extends Renderer {
     return {
       'click .start-quiz': 'handleStart',
       'click .submit-button': 'handleSubmit',
-      'click .next-question': 'handleNextQuestion'
+      'click .next-question': 'handleNextQuestion',
+      'click .finish-quiz': 'handleFinishQuiz'
     };
   }
 
@@ -33,8 +34,6 @@ class QuizDisplay extends Renderer {
     let answerSelection='';
     for(let i = 0; i < currentQ.answers.length; i++){
       answerSelection += `<input type="radio" name='generated_answer' value="${currentQ.answers[i]}">${currentQ.answers[i]}</button>`;
-      // ask about .text
-      //refer to Question.js for parameters 
     }
     return `
     <div>
@@ -50,7 +49,17 @@ class QuizDisplay extends Renderer {
     let currentQ = this.model.getCurrentQuestion();
     let answerSelected= $('input[name=generated_answer]:checked').val();;
 
-    if (answerSelected === currentQ.correctAnswer) {
+   
+    if (this.model.asked.length === 5) {
+      return `
+        <div>
+         <p> ${currentQ.text}</p>
+         <p> Sorry, that's incorrect. You answered: ${answerSelected}</p>
+         <p> The correct answer was: ${currentQ.correctAnswer}</p>
+        </div>
+        <button class="finish-quiz">Finish Quiz</button>
+      `;
+    } else if (answerSelected === currentQ.correctAnswer) {
       return `
       <div>
         <p> ${currentQ.text}</p>
@@ -61,12 +70,12 @@ class QuizDisplay extends Renderer {
      `;
     } else {
       return `
-    <div>
-      <p> ${currentQ.text}</p>
-      <p> Sorry, that's incorrect. You answered: ${answerSelected}</p>
-      <p> The correct answer was: ${currentQ.correctAnswer}</p>
-    </div>
-    <button class="next-question">Next Question</button>
+        <div>
+          <p> ${currentQ.text}</p>
+         <p> Sorry, that's incorrect. You answered: ${answerSelected}</p>
+         <p> The correct answer was: ${currentQ.correctAnswer}</p>
+        </div>
+        <button class="next-question">Next Question</button>
     `;
     }
   }
@@ -87,30 +96,31 @@ class QuizDisplay extends Renderer {
     `;
   }
 
-  // finishScreen() {
-  //   if (this.model.score > this.model.highScore) {
-  //     return `
-  //     <div> 
-  //      <p>Good job!</p>
-  //      <p>Your final score was ${this.model.score} out of 5.</p>
-  //      <p>That's a new high score!</p>
-  //      <button class="play-again">Play again</button>
-  //     </div>
-  //   `;} else {
-  //       return `
-  //        <div> 
-  //          <p>Good job!</p>
-  //          <p>Your final score was ${this.model.score} out of 5.</p>
-  //          <button class="play-again">Play again</button>
-  //        </div>
-  //   `;
-  // }
+  generateFinishScreen() {
+    if (this.model.score > this.model.highScore) {
+      return `
+      <div> 
+       <p>Good job!</p>
+       <p>Your final score was ${this.model.score} out of 5.</p>
+       <p>That's a new high score!</p>
+       <button class="play-again">Play again</button>
+      </div>
+    `;} else {
+      return `
+         <div> 
+           <p>Good job!</p>
+           <p>Your final score was ${this.model.score} out of 5.</p>
+           <button class="play-again">Play again</button>
+         </div>
+    `;
+    }
+  }
 
 
   template() {
     // console.log('template');
     let html = '';
-
+  
     if (this.model.getCurrentQuestion()) {
       // console.log('current question exists');
       if (this.model.getCurrentQuestion().userAnswer) {
@@ -119,7 +129,7 @@ class QuizDisplay extends Renderer {
         html = this.generateAnswerScreen();
         return html;
       }
-    }
+    } 
     
     if (this.model.asked.length === 0) {
       // Quiz has not started
@@ -128,13 +138,12 @@ class QuizDisplay extends Renderer {
 
     if (this.model.asked.length > 0) {
       html = this.generateQuestion();
-      
+    } 
+
+    if (this.model.asked.length === 5 && this.model.active === false) {
+      html = this.generateFinishScreen();
     }
-    
-    // if (this.model.unasked.length === 0) {
-    //   html = this.finishScreen();
-    // }
-    
+
     return html;
   }
 
@@ -144,7 +153,7 @@ class QuizDisplay extends Renderer {
 
   handleSubmit() {
     let userAnswer = $('input[name=generated_answer]:checked').val();
-    console.log('test log', userAnswer);
+    // console.log('test log', userAnswer);
     this.model.answerCurrentQuestion(userAnswer);
     
     // this.model.submitAnswer(userAnswer);
@@ -153,6 +162,11 @@ class QuizDisplay extends Renderer {
 
   handleNextQuestion() {
     this.model.nextQuestion();
+  }
+
+  handleFinishQuiz() {
+    console.log('finish quiz button works');
+    this.generateFinishScreen();
   }
 }
 

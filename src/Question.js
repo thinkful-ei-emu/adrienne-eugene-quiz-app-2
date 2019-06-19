@@ -24,9 +24,9 @@ class Question {
   }
 
   submitAnswer(answer) {
-    console.log(answer);
+    // console.log(answer);
     this.userAnswer = answer;
-    console.log(this);
+    // console.log(this);
   }
 
   /**

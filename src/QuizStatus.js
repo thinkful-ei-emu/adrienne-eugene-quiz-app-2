@@ -1,5 +1,5 @@
 import Renderer from './lib/Renderer';
-import Quiz from './Quiz';
+// import Quiz from './Quiz';
 
 class QuizStatus extends Renderer {
   template() {
