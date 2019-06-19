@@ -9,7 +9,7 @@ class QuizDisplay extends Renderer {
       'click .submit-button': 'handleSubmit',
       'click .next-question': 'handleNextQuestion',
       'click .finish-quiz': 'handleFinishQuiz',
-      // 'click .play-again': 
+      'click .play-again': 'handleStart'
     };
   }
 
@@ -34,7 +34,7 @@ class QuizDisplay extends Renderer {
     let currentQ = this.model.getCurrentQuestion();
     let answerSelection='';
     for(let i = 0; i < currentQ.answers.length; i++){
-      answerSelection += `<input type="radio" name='generated_answer' value="${currentQ.answers[i]}">${currentQ.answers[i]}</button>`;
+      answerSelection += `<form><input type="radio" name='generated_answer' value="${currentQ.answers[i]}">${currentQ.answers[i]}</button></form>`;
     }
     return `
     <div>
@@ -124,7 +124,7 @@ class QuizDisplay extends Renderer {
     let html = '';
 
     if (this.model.asked.length === 5 && this.model.unasked.length === 0) {
-      console.log('finish quiz exists');
+      // console.log('finish quiz exists');
       html = this.generateFinishScreen();
       return html;
     }
