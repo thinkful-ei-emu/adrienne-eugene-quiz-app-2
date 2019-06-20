@@ -48,7 +48,7 @@ class QuizDisplay extends Renderer {
 
   generateAnswerScreen() {
     let currentQ = this.model.getCurrentQuestion();
-    let answerSelected= $('input[name=generated_answer]:checked').val();;
+    let answerSelected= $('input[name=generated_answer]:checked').val();
 
    
     if (this.model.asked.length === 5) {
@@ -98,8 +98,10 @@ class QuizDisplay extends Renderer {
   }
 
   generateFinishScreen() {
-    if (this.model.score > this.model.highScore) {
-      // console.log(this.model.highScore);
+
+    // if the current score is higher than the current max score OR 
+    //this isn't the first game  and the score is greater than 0
+    if (this.model.score > this.model.maxScore || (this.model.scoreHistory.length === 1 && this.model.score > 0)) {
       return `
       <div> 
        <p>Good job!</p>
@@ -120,20 +122,17 @@ class QuizDisplay extends Renderer {
 
 
   template() {
-    // console.log('template');
-    let html = '';
 
-    if (this.model.asked.length === 5 && this.model.unasked.length === 0) {
-      // console.log('finish quiz exists');
+    let html = '';
+    //FINALLY found the correct parameters for this if statement. 
+    // The only time asked will have more than 0 questions and not be active is after the 5th question.
+    if (this.model.asked.length > 0 && this.model.active === false) {
       html = this.generateFinishScreen();
       return html;
     }
 
     if (this.model.getCurrentQuestion()) {
-      // console.log('current question exists');
       if (this.model.getCurrentQuestion().userAnswer) {
-        // console.log(this.model);
-        // console.log(this.model.getCurrentQuestion());
         html = this.generateAnswerScreen();
         return html;
       }
@@ -157,11 +156,8 @@ class QuizDisplay extends Renderer {
 
   handleSubmit() {
     let userAnswer = $('input[name=generated_answer]:checked').val();
-    // console.log('test log', userAnswer);
     this.model.answerCurrentQuestion(userAnswer);
     
-    // this.model.submitAnswer(userAnswer);
-    // this.generateAnswerScreen(userAnswer);
   }
 
   handleNextQuestion() {
@@ -169,7 +165,8 @@ class QuizDisplay extends Renderer {
   }
 
   handleFinishQuiz() {
-    console.log('finish quiz button works');
+    //revisit this push null thing
+    this.model.asked.push(null);
     this.model.endGame();
   }
 }

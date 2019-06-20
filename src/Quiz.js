@@ -17,6 +17,8 @@ class Quiz extends Model{
 
     // TASK: Add more props here per the exercise
     this.score = 0;
+    // added a maxscore property to hold high score
+    this.maxScore = null;
     this.scoreHistory = [];
     this.progress = 'Inactive';
 
@@ -85,13 +87,13 @@ class Quiz extends Model{
     return true;
   }
 
-  highScore() {
-   this.scoreHistory = Math.max(...this.scoreHistory);
+  //
+  calcHighScore() {
+   this.maxScore = Math.max(...this.scoreHistory);
    this.update();
   }
 
   progressStatus() {
-    console.log(this);
    if(this.active === true) {
     this.progress = `${this.asked.length} of 5`;
     this.update();
@@ -102,11 +104,15 @@ class Quiz extends Model{
   }
 
   endGame() {
-    this.unasked = [];
-    this.asked = [5];
+    // this.unasked = [];
+    // this.asked = [5];
     this.active = false;
-    this.score = this.score;
-    this.scoreHistory = this.highScore();
+
+    // we want to push the end score into scoreHistory array.
+    this.scoreHistory.push(this.score);
+
+    // then run calcHighScore to set new high score if there is one.
+    this.calcHighScore();
     this.update();
   }
 
