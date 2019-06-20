@@ -37,12 +37,13 @@ class QuizDisplay extends Renderer {
       answerSelection += `<form><input type="radio" name='generated_answer' value="${currentQ.answers[i]}">${currentQ.answers[i]}</button></form>`;
     }
     return `
-    <div>
+    <fieldset>
+    <br>
     ${currentQ.text}
     ${answerSelection}
    
         <button class="submit-button" id="submit-answer">Submit Answer</button>
-    </div>
+    </fieldset>
     `;
   }
 
@@ -81,22 +82,7 @@ class QuizDisplay extends Renderer {
     }
   }
 
-  generateNextQuestion() {
-    let currentQ = this.model.getCurrentQuestion();
-    let answerSelection='';
-    for(let i = 0; i < currentQ.answers.length; i++){
-      answerSelection += `<input type="radio" name='generated_answer' value="${currentQ.answers[i]}">${currentQ.answers[i]}</button>`;
-    }
-    return `
-    <div>
-    ${currentQ.text}
-    ${answerSelection}
-   
-        <button class="submit-button" id="submit-answer">Submit Answer</button>
-    </div>
-    `;
-  }
-
+ 
   generateFinishScreen() {
 
     // if the current score is higher than the current max score OR 
@@ -156,7 +142,11 @@ class QuizDisplay extends Renderer {
 
   handleSubmit() {
     let userAnswer = $('input[name=generated_answer]:checked').val();
-    this.model.answerCurrentQuestion(userAnswer);
+    //this is needed because our program was breaking when trying to submit without checking a answer.  
+    //by adding this it only does something if userAnswer exists.
+    if(userAnswer){
+      this.model.answerCurrentQuestion(userAnswer);
+    }
     
   }
 

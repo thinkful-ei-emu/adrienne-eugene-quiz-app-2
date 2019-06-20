@@ -104,13 +104,9 @@ class Quiz extends Model{
   }
 
   endGame() {
-    // this.unasked = [];
-    // this.asked = [5];
     this.active = false;
-
     // we want to push the end score into scoreHistory array.
     this.scoreHistory.push(this.score);
-
     // then run calcHighScore to set new high score if there is one.
     this.calcHighScore();
     this.update();
