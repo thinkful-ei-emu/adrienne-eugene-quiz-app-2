@@ -1,0 +1,33 @@
+* {
+  box-sizing: border-box;
+} 
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  font-size: 16px;
+  line-height: 1.5;
+  background: rgb(208, 237, 247);
+}
+
+/* p {
+  font-weight: bold;
+} */
+
+.incorrect {
+  font-weight: bold;
+  color: red;
+}
+
+.correct {
+  font-weight: bold;
+  color: green;
+}
+
+.ending {
+  font-weight: bold;
+}
+
+.start {
+  font-weight: bold;
+}

@@ -15,7 +15,7 @@ class QuizDisplay extends Renderer {
 
   _generateIntro() {
     return `
-      <div>
+      <div class="start">
         <p>
           Welcome to the Trivia Quiz
         </p>
@@ -56,8 +56,8 @@ class QuizDisplay extends Renderer {
       return `
         <div>
          <p> ${currentQ.text}</p>
-         <p> Sorry, that's incorrect. You answered: ${answerSelected}</p>
-         <p> The correct answer was: ${currentQ.correctAnswer}</p>
+         <p> Sorry, that's incorrect. You answered: <span class="incorrect">${answerSelected}</span></p>
+         <p> The correct answer was: <span class="correct">${currentQ.correctAnswer}</span></p>
         </div>
         <button class="finish-quiz">Finish Quiz</button>
       `;
@@ -66,16 +66,16 @@ class QuizDisplay extends Renderer {
       <div>
         <p> ${currentQ.text}</p>
         <p> You got it!</p>
-        <p> The correct answer was: ${currentQ.correctAnswer}</p>
+        <p> The correct answer was: <span class="correct">${currentQ.correctAnswer}</span></p>
       </div>
       <button class="next-question">Next Question</button>
      `;
     } else {
       return `
         <div>
-          <p> ${currentQ.text}</p>
-         <p> Sorry, that's incorrect. You answered: ${answerSelected}</p>
-         <p> The correct answer was: ${currentQ.correctAnswer}</p>
+         <p> ${currentQ.text}</p>
+         <p> Sorry, that's incorrect. You answered: <span class="incorrect">${answerSelected}</span></p>
+         <p> The correct answer was: <span class="correct">${currentQ.correctAnswer}</span></p>
         </div>
         <button class="next-question">Next Question</button>
     `;
@@ -89,7 +89,7 @@ class QuizDisplay extends Renderer {
     //this isn't the first game  and the score is greater than 0
     if (this.model.score > this.model.maxScore || (this.model.scoreHistory.length === 1 && this.model.score > 0)) {
       return `
-      <div> 
+      <div class="ending"> 
        <p>Good job!</p>
        <p>Your final score was ${this.model.score} out of 5.</p>
        <p>That's a new high score!</p>
@@ -97,7 +97,7 @@ class QuizDisplay extends Renderer {
       </div>
     `;} else {
       return `
-         <div> 
+         <div class="ending"> 
            <p>Good job!</p>
            <p>Your final score was ${this.model.score} out of 5.</p>
            <button class="play-again">Play again</button>
