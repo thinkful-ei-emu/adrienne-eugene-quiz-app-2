@@ -6,7 +6,7 @@
   "mode": "development",
   "dependencies": {
     "gh-pages": "^2.0.1",
-    "jquery": "^3.4.0"
+    "jquery": "^3.5.0"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",
